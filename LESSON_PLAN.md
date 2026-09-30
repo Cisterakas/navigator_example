@@ -341,13 +341,13 @@ Required features:
 
 ### Suggested Rubric
 
-| Criterion | Weight |
-|---|---:|
-| Navigation works | 30% |
-| Correct routing approach for each branch | 25% |
-| Data passing and result handling | 20% |
-| Code organization | 15% |
-| Explanation of differences | 10% |
+| Criterion                                | Weight |
+| ---------------------------------------- | -----: |
+| Navigation works                         |    30% |
+| Correct routing approach for each branch |    25% |
+| Data passing and result handling         |    20% |
+| Code organization                        |    15% |
+| Explanation of differences               |    10% |
 
 ## Common Misconceptions
 

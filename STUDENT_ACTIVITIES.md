@@ -219,15 +219,15 @@ Identify the differences between the three routing implementations.
 
 Complete this table:
 
-| Feature | Manual | Named Routes | go_router |
-|---|---|---|---|
-| Destination definition |  |  |  |
-| Navigation call |  |  |  |
-| Back navigation |  |  |  |
-| Passing data |  |  |  |
-| URL support |  |  |  |
-| Deep linking |  |  |  |
-| Best use case |  |  |  |
+| Feature                | Manual | Named Routes | go_router |
+| ---------------------- | ------ | ------------ | --------- |
+| Destination definition |        |              |           |
+| Navigation call        |        |              |           |
+| Back navigation        |        |              |           |
+| Passing data           |        |              |           |
+| URL support            |        |              |           |
+| Deep linking           |        |              |           |
+| Best use case          |        |              |           |
 
 Use these concepts to help complete the table:
 
