@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:navigator_example/app_routes.dart';
 import 'package:navigator_example/main.dart';
-import 'package:navigator_example/page/pop_result_page.dart';
-import 'package:navigator_example/page/second_page.dart';
-import 'package:navigator_example/page/willpop_page.dart';
 import 'package:navigator_example/widget/button_widget.dart';
 import 'package:navigator_example/widget/header_widget.dart';
 
@@ -26,37 +24,35 @@ class _FirstPageState extends State<FirstPage> {
           HeaderWidget(title: 'Page 1'),
           ButtonWidget(
             text: 'Push: Page 2',
-            onClicked: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SecondPage()),
-            ),
+            // Before: Navigator.push(context, MaterialPageRoute(...)).
+            // Now: only the route name is needed; MaterialApp finds the page.
+            onClicked: () => Navigator.pushNamed(context, AppRoutes.second),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Replace: Page 2',
-            onClicked: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const SecondPage()),
-            ),
+            // This is the named-route version of pushReplacement.
+            onClicked: () =>
+                Navigator.pushReplacementNamed(context, AppRoutes.second),
           ),
           Divider(height: 48),
           ButtonWidget(
             text: 'Push: Page WillPopScope',
-            onClicked: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const WillPopScopePage()),
-            ),
+            // The page is selected from the route table using its name.
+            onClicked: () => Navigator.pushNamed(context, AppRoutes.willPop),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Push: Page PopResult',
             onClicked: () async {
-              final result = await Navigator.push(
+              // Before: MaterialPageRoute constructed PopResultPage directly.
+              // Now: arguments carry data to the named route's builder.
+              // The routes map creates a dynamic MaterialPageRoute, so do not
+              // request a typed Route<String> from pushNamed here.
+              final result = await Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      PopResultPage(data: 'Some data from Page 1'),
-                ),
+                AppRoutes.popResult,
+                arguments: 'Some data from Page 1',
               );
 
               if (!context.mounted) return;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:navigator_example/app_routes.dart';
 import 'package:navigator_example/main.dart';
-import 'package:navigator_example/page/third_page.dart';
 import 'package:navigator_example/widget/button_widget.dart';
 import 'package:navigator_example/widget/header_widget.dart';
 
@@ -17,10 +17,9 @@ class SecondPage extends StatelessWidget {
           HeaderWidget(title: 'Page 2'),
           ButtonWidget(
             text: 'Push: Page 3',
-            onClicked: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ThirdPage()),
-            ),
+            // Before: this button created ThirdPage with MaterialPageRoute.
+            // Now: the route table resolves the page from this name.
+            onClicked: () => Navigator.pushNamed(context, AppRoutes.third),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
