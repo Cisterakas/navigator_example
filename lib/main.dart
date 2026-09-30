@@ -14,7 +14,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  static const title = 'Navigator 1.0';
+  static const title = 'Navigator 1.0(Manual Routing)';
 
   const MyApp({super.key});
 
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         centerTitle: true,
       ),
     ),
+    // Manual navigation starts with a widget instead of a route table.
     home: const FirstPage(),
   );
 }

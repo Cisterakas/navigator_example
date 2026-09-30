@@ -16,11 +16,13 @@ class ThirdPage extends StatelessWidget {
           HeaderWidget(title: 'Page 3'),
           ButtonWidget(
             text: 'Pop: Page 2',
+            // pop removes Page 3 and returns to Page 2.
             onClicked: () => Navigator.pop(context),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Pop All: Page 1',
+            // popUntil removes pages until the first route remains.
             onClicked: () =>
                 Navigator.popUntil(context, ModalRoute.withName('/')),
           ),

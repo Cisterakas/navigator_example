@@ -17,6 +17,7 @@ class SecondPage extends StatelessWidget {
           HeaderWidget(title: 'Page 2'),
           ButtonWidget(
             text: 'Push: Page 3',
+            // The page is constructed directly inside MaterialPageRoute.
             onClicked: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ThirdPage()),
@@ -25,6 +26,7 @@ class SecondPage extends StatelessWidget {
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Pop: Page 1',
+            // pop removes the current page and reveals the previous page.
             onClicked: () => Navigator.pop(context),
           ),
         ],

@@ -48,6 +48,7 @@ class _PopResultPageState extends State<PopResultPage> {
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Pop With Result',
+            // The second argument sends this value back to the awaiting push.
             onClicked: () => Navigator.pop(context, result),
           ),
         ],

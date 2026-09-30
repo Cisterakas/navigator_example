@@ -26,6 +26,7 @@ class _FirstPageState extends State<FirstPage> {
           HeaderWidget(title: 'Page 1'),
           ButtonWidget(
             text: 'Push: Page 2',
+            // MaterialPageRoute constructs the destination when the button is tapped.
             onClicked: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SecondPage()),
@@ -34,6 +35,7 @@ class _FirstPageState extends State<FirstPage> {
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Replace: Page 2',
+            // pushReplacement removes Page 1 before adding Page 2.
             onClicked: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const SecondPage()),
@@ -42,6 +44,7 @@ class _FirstPageState extends State<FirstPage> {
           Divider(height: 48),
           ButtonWidget(
             text: 'Push: Page WillPopScope',
+            // Each destination is created directly by this navigation callback.
             onClicked: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const WillPopScopePage()),
@@ -51,6 +54,7 @@ class _FirstPageState extends State<FirstPage> {
           ButtonWidget(
             text: 'Push: Page PopResult',
             onClicked: () async {
+              // push returns a Future that completes when the new page pops.
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
