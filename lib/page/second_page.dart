@@ -21,10 +21,7 @@ class SecondPage extends StatelessWidget {
             onClicked: () => context.push(AppRoutes.third),
           ),
           const SizedBox(height: 24),
-          ButtonWidget(
-            text: 'Pop: Page 1',
-            onClicked: () => context.pop(),
-          ),
+          ButtonWidget(text: 'Pop: Page 1', onClicked: () => context.pop()),
         ],
       ),
     ),

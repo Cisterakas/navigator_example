@@ -16,10 +16,7 @@ class ThirdPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           HeaderWidget(title: 'Page 3'),
-          ButtonWidget(
-            text: 'Pop: Page 2',
-            onClicked: () => context.pop(),
-          ),
+          ButtonWidget(text: 'Pop: Page 2', onClicked: () => context.pop()),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Pop All: Page 1',
