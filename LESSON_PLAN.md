@@ -300,19 +300,6 @@ Connect this to browser URLs:
 Discuss why URL-aware routing matters for Flutter web applications, deep links,
 authentication redirects, nested navigation, and browser back/forward buttons.
 
-## Student Activities
-
-The complete student worksheet is in [STUDENT_ACTIVITIES.md](STUDENT_ACTIVITIES.md).
-
-It includes:
-
-- Predicting the navigation stack.
-- Adding a new page in all three branches.
-- Passing data and returning a result.
-- Comparing manual navigation, named routes, and `go_router`.
-- Explaining the building analogy.
-- A submission checklist.
-
 ## Assessment
 
 ### Formative Questions
