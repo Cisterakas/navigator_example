@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:navigator_example/app_routes.dart';
 import 'package:navigator_example/main.dart';
 import 'package:navigator_example/widget/button_widget.dart';
@@ -17,16 +18,13 @@ class ThirdPage extends StatelessWidget {
           HeaderWidget(title: 'Page 3'),
           ButtonWidget(
             text: 'Pop: Page 2',
-            onClicked: () => Navigator.pop(context),
+            onClicked: () => context.pop(),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Pop All: Page 1',
-            // The route name lets popUntil know where the stack should stop.
-            onClicked: () => Navigator.popUntil(
-              context,
-              ModalRoute.withName(AppRoutes.home),
-            ),
+            // go changes the location and clears the pushed route history.
+            onClicked: () => context.go(AppRoutes.home),
           ),
         ],
       ),

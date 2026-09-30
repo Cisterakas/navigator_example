@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:navigator_example/app_routes.dart';
 import 'package:navigator_example/main.dart';
 import 'package:navigator_example/widget/button_widget.dart';
@@ -24,35 +25,28 @@ class _FirstPageState extends State<FirstPage> {
           HeaderWidget(title: 'Page 1'),
           ButtonWidget(
             text: 'Push: Page 2',
-            // Before: Navigator.push(context, MaterialPageRoute(...)).
-            // Now: only the route name is needed; MaterialApp finds the page.
-            onClicked: () => Navigator.pushNamed(context, AppRoutes.second),
+            // push adds a page to the navigation stack.
+            onClicked: () => context.push(AppRoutes.second),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Replace: Page 2',
-            // This is the named-route version of pushReplacement.
-            onClicked: () =>
-                Navigator.pushReplacementNamed(context, AppRoutes.second),
+            // pushReplacement replaces the current page in the stack.
+            onClicked: () => context.pushReplacement(AppRoutes.second),
           ),
           Divider(height: 48),
           ButtonWidget(
             text: 'Push: Page WillPopScope',
-            // The page is selected from the route table using its name.
-            onClicked: () => Navigator.pushNamed(context, AppRoutes.willPop),
+            onClicked: () => context.push(AppRoutes.willPop),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Push: Page PopResult',
             onClicked: () async {
-              // Before: MaterialPageRoute constructed PopResultPage directly.
-              // Now: arguments carry data to the named route's builder.
-              // The routes map creates a dynamic MaterialPageRoute, so do not
-              // request a typed Route<String> from pushNamed here.
-              final result = await Navigator.pushNamed(
-                context,
+              // extra passes data to the GoRoute builder.
+              final result = await context.push<String>(
                 AppRoutes.popResult,
-                arguments: 'Some data from Page 1',
+                extra: 'Some data from Page 1',
               );
 
               if (!context.mounted) return;

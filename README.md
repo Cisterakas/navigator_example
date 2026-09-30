@@ -1,127 +1,160 @@
-# Navigator Example: Named Routes
+# Navigator Example: go_router
 
-This project is the **`named-routes` branch** of the navigation example.
-It demonstrates how Flutter navigation works when pages are given names in
-advance.
+This project is the **`go-router` branch** of the navigation example.
+It demonstrates the same navigation screens using the `go_router` package.
 
-The project is designed to be compared with the `manual-navigation` branch.
-Both branches use the same pages, but they decide where to navigate in
-different ways.
+The project can be compared with these earlier branches:
+
+- `manual-navigation` creates pages with `MaterialPageRoute`.
+- `named-routes` uses Flutter's `MaterialApp.routes` and `pushNamed`.
+- `go-router` uses one `GoRouter` configuration and context navigation methods.
 
 ## Learning Goals
 
 After studying this branch, students should be able to:
 
 - Explain what a navigation stack is.
-- Register pages with route names.
-- Navigate with `Navigator.pushNamed`.
-- Replace a page with `Navigator.pushReplacementNamed`.
-- Return to an earlier page with `Navigator.pop`.
-- Remove pages until a named route with `Navigator.popUntil`.
-- Pass data to a named route with `arguments`.
-- Return a result from a page with `Navigator.pop`.
+- Define application paths with `GoRoute`.
+- Configure an app with `MaterialApp.router`.
+- Add a page to the stack with `context.push`.
+- Replace the current location with `context.go` or `context.pushReplacement`.
+- Return to an earlier page with `context.pop`.
+- Pass page data with `extra`.
+- Understand why URL-aware routing is useful for Flutter web applications.
 
-## Manual Navigation Compared With Named Routes
+## Why go_router?
 
-In the `manual-navigation` branch, the destination page is created at the
-moment the button is pressed:
+With manual navigation, a button constructs the destination page:
 
 ```dart
 Navigator.push(
-	context,
-	MaterialPageRoute(builder: (context) => const SecondPage()),
+  context,
+  MaterialPageRoute(builder: (context) => const SecondPage()),
 );
 ```
 
-This is easy to understand for a small application, but the navigation code
-must know which widget to construct.
-
-In this `named-routes` branch, the page is registered once in `main.dart`:
-
-```dart
-routes: {
-	AppRoutes.second: (context) => const SecondPage(),
-},
-```
-
-The button only uses the route name:
+With Flutter named routes, the button uses a registered name:
 
 ```dart
 Navigator.pushNamed(context, AppRoutes.second);
 ```
 
-The `Navigator` asks the `MaterialApp` route table to find and create the
-page. This separates the navigation request from the page construction.
+With `go_router`, the router owns the navigation configuration and the page
+uses a context extension:
+
+```dart
+context.push(AppRoutes.second);
+```
+
+The router can also work with browser URLs, deep links, redirects, and nested
+navigation as an application grows.
 
 ## How This Branch Is Organized
 
 ### `lib/app_routes.dart`
 
-This file stores route names in one place:
+This file stores the path strings in one place:
 
 ```dart
 class AppRoutes {
-	static const home = '/';
-	static const second = '/second';
-	static const third = '/third';
+  static const home = '/';
+  static const second = '/second';
+  static const third = '/third';
 }
 ```
 
-Using constants prevents spelling mistakes such as `'/seond'` in one file
-and `'/second'` in another file.
+These constants reduce spelling mistakes and make route changes easier.
 
-### `lib/main.dart`
+### `lib/app_router.dart`
 
-`MaterialApp` contains the route table:
-
-```dart
-initialRoute: AppRoutes.home,
-routes: {
-	AppRoutes.home: (context) => const FirstPage(),
-	AppRoutes.second: (context) => const SecondPage(),
-	AppRoutes.third: (context) => const ThirdPage(),
-},
-```
-
-The `initialRoute` tells Flutter which named route to show first.
-
-### Page files
-
-The page files request navigation by using route names:
-
-- `first_page.dart` opens Page 2, the `PopScope` example, and the result page.
-- `second_page.dart` opens Page 3 and pops back to Page 1.
-- `third_page.dart` demonstrates a normal pop and `popUntil`.
-- `willpop_page.dart` demonstrates controlling whether a page can be popped.
-- `pop_result_page.dart` sends a value back to Page 1.
-
-## Passing Data With a Named Route
-
-The first page sends data when it opens the result page:
+This file owns the `GoRouter` configuration:
 
 ```dart
-Navigator.pushNamed(
-	context,
-	AppRoutes.popResult,
-	arguments: 'Some data from Page 1',
+final appRouter = GoRouter(
+  initialLocation: AppRoutes.home,
+  routes: [
+    GoRoute(
+      path: AppRoutes.second,
+      builder: (context, state) => const SecondPage(),
+    ),
+  ],
 );
 ```
 
-The route builder reads that data from `RouteSettings` in `main.dart`:
+Each `GoRoute` connects a URL path to the widget shown at that path.
+
+### `lib/main.dart`
+
+`MaterialApp.router` gives Flutter the router configuration:
 
 ```dart
-final data =
-		ModalRoute.of(context)?.settings.arguments as String? ??
-		'No data provided';
+MaterialApp.router(
+  routerConfig: appRouter,
+)
+```
+
+This is different from `MaterialApp(home: ...)` and from
+`MaterialApp(routes: ...)`.
+
+### Page files
+
+- `first_page.dart` demonstrates `push`, `pushReplacement`, and `extra`.
+- `second_page.dart` demonstrates `push` and `pop`.
+- `third_page.dart` demonstrates `pop` and returning to the home location.
+- `willpop_page.dart` demonstrates controlling whether a page can be popped.
+- `pop_result_page.dart` returns a value to the previous page.
+
+## go_router Navigation Methods
+
+### `context.push`
+
+Adds a new page to the navigation stack:
+
+```dart
+context.push(AppRoutes.second);
+```
+
+### `context.go`
+
+Changes the current location. In this example it is used for "Pop All" because
+the app returns directly to the home location:
+
+```dart
+context.go(AppRoutes.home);
+```
+
+### `context.pop`
+
+Removes the current page:
+
+```dart
+context.pop();
+```
+
+## Passing Data and Returning a Result
+
+The first page passes data with `extra`:
+
+```dart
+final result = await context.push<String>(
+  AppRoutes.popResult,
+  extra: 'Some data from Page 1',
+);
+```
+
+The router reads that value from `state.extra`:
+
+```dart
+final data = state.extra as String? ?? 'No data provided';
 ```
 
 The result page sends a value back with:
 
 ```dart
-Navigator.pop(context, result);
+context.pop(result);
 ```
 
-The first page waits for that value and displays it in a snackbar.
+The first page receives the returned value and displays it in a snackbar.
 
 ## Try the Example
 
@@ -142,16 +175,14 @@ Try these actions in order:
 
 ## Compare the Branches
 
-To compare the two navigation styles, view the same button in each branch:
-
 ```bash
 git switch manual-navigation
 git switch named-routes
+git switch go-router
 ```
 
-Look for the difference between `MaterialPageRoute` and
-`Navigator.pushNamed`. The page layouts are intentionally similar so that
-the navigation change is easy to identify.
+Compare the same button in each branch. The page layouts are intentionally
+similar, so the routing differences are easier to identify.
 
 ## Useful Commands
 
@@ -162,9 +193,3 @@ flutter test
 
 `flutter analyze` checks the Dart code for errors and warnings. `flutter test`
 runs the widget tests.
-
-## Next Step: `go_router`
-
-Named routes are useful for learning the fundamentals. For larger applications
-with deep links, redirects, nested navigation, and browser URLs, the next
-version of this lesson can introduce the `go_router` package.

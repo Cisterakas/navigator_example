@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:navigator_example/main.dart';
 import 'package:navigator_example/widget/button_widget.dart';
 import 'package:navigator_example/widget/header_widget.dart';
@@ -48,7 +49,7 @@ class _PopResultPageState extends State<PopResultPage> {
           const SizedBox(height: 24),
           ButtonWidget(
             text: 'Pop With Result',
-            onClicked: () => Navigator.pop(context, result),
+            onClicked: () => context.pop(result),
           ),
         ],
       ),
