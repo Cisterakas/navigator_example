@@ -22,7 +22,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
     title: title,
-    theme: ThemeData(primaryColor: Colors.red),
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 247, 172, 12),
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color.fromARGB(255, 247, 172, 12),
+        foregroundColor: Colors.white,
+        centerTitle: true,
+      ),
+    ),
     home: const FirstPage(),
   );
 }
