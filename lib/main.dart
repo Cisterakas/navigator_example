@@ -10,17 +10,19 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Navigator 1.0';
+  static const title = 'Navigator 1.0';
+
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(primaryColor: Colors.red),
-        home: FirstPage(),
-      );
+    debugShowCheckedModeBanner: false,
+    title: title,
+    theme: ThemeData(primaryColor: Colors.red),
+    home: const FirstPage(),
+  );
 }
